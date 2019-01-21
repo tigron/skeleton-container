@@ -2,3 +2,4 @@
 !/lib/service/README.md
 /config/pair.key
 /lib/external/*
+/tmp/*
