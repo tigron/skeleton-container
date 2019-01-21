@@ -1,0 +1,4 @@
+/lib/service/*
+!/lib/service/README.md
+/config/pair.key
+/lib/external/*
