@@ -1,0 +1,16 @@
+{
+    "config": {
+        "vendor-dir": "lib/external/packages"
+    },
+    "require" : {
+        "tigron/skeleton-core": "^0.1.17",
+        "tigron/skeleton-template": "^0.1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tigron BVBA",
+            "email": "support@tigron.be"
+        }
+    ]
+}
