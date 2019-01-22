@@ -97,12 +97,8 @@ class Web_Module_Container extends Module {
 		$zip = new ZipArchive();
 		$zip->open(Skeleton\Core\Config::$tmp_dir . '/' . $_POST['name'] . '.zip');
 		$zip->extractTo(Skeleton\Core\Config::$tmp_dir . '/../lib/service/' . $_POST['name']);
-		$key = Container_Permission::unpair();
 		$response = new Container_Response();
 		$response->set_message('Provision successful');
-		$response->output();
-		$key = Container_Permission::unpair();
-		$response = new Container_Response();
 		$response->output();
 	}
 
