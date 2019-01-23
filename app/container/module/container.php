@@ -42,7 +42,6 @@ class Web_Module_Container extends Module {
 	public function display_pair() {
 		if (Container::is_paired()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 
 		$key = Container_Permission::pair();
@@ -59,12 +58,10 @@ class Web_Module_Container extends Module {
 	public function display_unpair() {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 
 		if (!Container_Permission::is_authenticated()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 
 		$services = Service::get_all();
@@ -85,11 +82,9 @@ class Web_Module_Container extends Module {
 	public function display_provision() {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 		if (!Container_Permission::is_authenticated()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 
 		$zipfile = base64_decode($_POST['content']);
@@ -110,11 +105,9 @@ class Web_Module_Container extends Module {
 	public function display_deprovision() {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 		if (!Container_Permission::is_authenticated()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 		try {
 			$service = Service::get_by_name($_POST['name']);
@@ -137,7 +130,6 @@ class Web_Module_Container extends Module {
 	public function display_info() {
 		if (Container::is_paired() and !Container_Permission::is_authenticated()) {
 			Container_Response::output_forbidden();
-			return;
 		}
 
 		$services = Service::get_all();

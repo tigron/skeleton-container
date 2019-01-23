@@ -83,7 +83,7 @@ class Container_Response {
 			$response['data'] = $this->data;
 		}
 		echo json_encode($response, JSON_PRETTY_PRINT);
-		return;
+		exit;
 	}
 
 	/**
@@ -92,9 +92,31 @@ class Container_Response {
 	 * @access public
 	 */
 	public static function output_forbidden() {
-		$response = new self();
-		$response->set_status_code(403);
-		$response->set_message('Not allowed to perform this action');
-		$response->output();
+		self::code_403('Not allowed to perform this action');
 	}
+
+	/**
+	 * Call
+	 *
+	 * @access public
+	 * @param string $method
+	 * @param array $arguments
+	 */
+	public static function __callstatic($method, $arguments = []) {
+		preg_match('/code_(\d*)/', $method, $output_array);
+		if (!isset($output_array[1])) {
+			throw new \Exception('Use Container_Response::code_XXX to respond');
+		}
+
+		if (!is_array($arguments) or count($arguments) == 0) {
+			throw new \Exception('Please give a response message');
+		}
+
+		$response= new self();
+		$response->set_status_code($output_array[1]);
+		$response->set_message($arguments[0]);
+		$response->output();
+		exit;
+	}
+
 }
