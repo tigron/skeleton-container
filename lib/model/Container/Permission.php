@@ -68,6 +68,7 @@ class Container_Permission {
 	public static function unpair() {
 		$path  = dirname(__FILE__) . '/../../../config/pair.key';
 		file_put_contents($path, '');
+		chmod($path, 0600);
 	}
 
 	/**
@@ -88,6 +89,7 @@ class Container_Permission {
 			}, range(0, 249)));
 		$path  = dirname(__FILE__) . '/../../../config/pair.key';
 		file_put_contents($path, $key);
+		chmod($path, 0600);		
 		return $key;
 	}
 
