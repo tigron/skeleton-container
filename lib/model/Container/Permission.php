@@ -17,7 +17,7 @@ class Container_Permission {
 	 * @access public
 	 * @return bool $authenticated
 	 */
-	public function is_authenticated() {
+	public static function is_authenticated() {
 		if (isset(self::$key) and self::validate_key(self::$key)) {
 			return true;
 		}
