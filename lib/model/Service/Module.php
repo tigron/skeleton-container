@@ -54,15 +54,24 @@ abstract class Service_Module {
 	 * @access public
 	 */
 	public function handle_request() {
+		ob_start();
 		// Find out which method to call, fall back to calling displa()
 		if (isset($_REQUEST['action']) AND method_exists($this, 'handle_' . $_REQUEST['action'])) {
-			call_user_func([$this, 'handle_'.$_REQUEST['action']], $_POST);
+			try {
+				call_user_func_array([$this, 'handle_'.$_REQUEST['action']], $_POST);
+			} catch (\Exception $e) {
+				$response = new Container_Response();
+				$response->set_status_code(500);
+				$response->set_message($e->getMessage());
+				$response->output();
+			}
 		} else {
 			$response = new Container_Response();
 			$response->set_status_code(404);
 			$response->set_message('Action ' . $_REQUEST['action'] . ' not found for service ' . $this->get_name());
 			$response->output();
 		}
+		ob_end_clean();
 	}
 
 	/**

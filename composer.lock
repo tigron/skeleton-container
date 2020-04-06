@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbc3d536e86de0269d4b18a0cc976f95",
+    "content-hash": "00f32bebd0b6f129c0d6e75117395854",
     "packages": [
         {
             "name": "tigron/skeleton-core",
-            "version": "v0.1.17",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tigron/skeleton-core.git",
-                "reference": "69b6c3dadcb70e6f65e7c57e8c84836c2698fe30"
+                "reference": "32236f087366b25c052c42172ce12b34fa42e3ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tigron/skeleton-core/zipball/69b6c3dadcb70e6f65e7c57e8c84836c2698fe30",
-                "reference": "69b6c3dadcb70e6f65e7c57e8c84836c2698fe30",
+                "url": "https://api.github.com/repos/tigron/skeleton-core/zipball/32236f087366b25c052c42172ce12b34fa42e3ac",
+                "reference": "32236f087366b25c052c42172ce12b34fa42e3ac",
                 "shasum": ""
             },
             "type": "library",
@@ -37,20 +37,20 @@
                 }
             ],
             "description": "Core functionality for Skeleton",
-            "time": "2018-10-03T08:09:28+00:00"
+            "time": "2020-02-05T12:26:40+00:00"
         },
         {
             "name": "tigron/skeleton-template",
-            "version": "v0.1.2",
+            "version": "v0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tigron/skeleton-template.git",
-                "reference": "5cdee940ce473e2e4698ee1f44068f7c738d745d"
+                "reference": "1467522243019f45fbe5b824a63222a677608997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tigron/skeleton-template/zipball/5cdee940ce473e2e4698ee1f44068f7c738d745d",
-                "reference": "5cdee940ce473e2e4698ee1f44068f7c738d745d",
+                "url": "https://api.github.com/repos/tigron/skeleton-template/zipball/1467522243019f45fbe5b824a63222a677608997",
+                "reference": "1467522243019f45fbe5b824a63222a677608997",
                 "shasum": ""
             },
             "type": "library",
@@ -70,7 +70,7 @@
                 }
             ],
             "description": "Template library for skeleton",
-            "time": "2018-03-21T10:56:20+00:00"
+            "time": "2019-08-02T11:53:04+00:00"
         }
     ],
     "packages-dev": [],
@@ -80,5 +80,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

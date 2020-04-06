@@ -1,41 +1,27 @@
 <?php
 /**
- * Hooks
+ * Event
  *
  * @author Gerry Demaret <gerry@tigron.be>
  * @author Christophe Gosiau <christophe@tigron.be>
  * @author David Vandemaele <david@tigron.be>
  */
 
-class Hook_Container {
+namespace App\Container\Event;
+
+use \Skeleton\Core\Web\Session;
+use \Skeleton\Core\Web\Template;
+
+class Module extends \Skeleton\Core\Event {
 
 	/**
-	 * Start time
-	 *
-	 * @access private
-	 */
-	private static $start = 0;
-
-	/**
-	 * Bootstrap the application
+	 * Module not found
 	 *
 	 * @access public
 	 */
-	public static function bootstrap(\Skeleton\Core\Web\Module $module) {
+	public function not_found() {
 		if (isset($_SERVER['HTTP_KEY'])) {
-			Container_Permission::$key = $_SERVER['HTTP_KEY'];
-		}
-	}
-
-
-	/**
-	 * Bootstrap the application
-	 *
-	 * @access public
-	 */
-	public static function module_not_found() {
-		if (isset($_SERVER['HTTP_KEY'])) {
-			Container_Permission::$key = $_SERVER['HTTP_KEY'];
+			\Container_Permission::$key = $_SERVER['HTTP_KEY'];
 		}
 
 		/**
@@ -57,19 +43,19 @@ class Hook_Container {
 		}
 
 		if (!is_array($request_uri_parts) or count($request_uri_parts) == 0) {
-			Skeleton\Core\Web\HTTP\Status::code_404('Service not found');
+			\Skeleton\Core\Web\HTTP\Status::code_404('Service not found');
 		}
 		$service_name = array_shift($request_uri_parts);
 		try {
-			$service = Service::get_by_name($service_name);
+			$service = \Service::get_by_name($service_name);
 		} catch (Exception $e) {
-			Skeleton\Core\Web\HTTP\Status::code_404('Service not found');
+			\Skeleton\Core\Web\HTTP\Status::code_404('Service not found');
 		}
 
 		try {
 			$module = $service->get_module(implode('/', $request_uri_parts));
 		} catch (Exception $e) {
-			Skeleton\Core\Web\HTTP\Status::code_404('Module not found');
+			\Skeleton\Core\Web\HTTP\Status::code_404('Module not found');
 		}
 
 		$autoloader = new \Skeleton\Core\Autoloader();
@@ -77,6 +63,8 @@ class Hook_Container {
 		$autoloader->register();
 
 		$module->accept_request();
+		
 	}
+
 
 }
