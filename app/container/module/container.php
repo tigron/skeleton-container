@@ -8,7 +8,7 @@
 
 use \Skeleton\Core\Web\Module;
 
-class Web_Module_Container extends Module {
+class Web_Module_Container extends Service_Module {
 
 	/**
 	 * Login required
@@ -39,7 +39,7 @@ class Web_Module_Container extends Module {
 	 *
 	 * @access public
 	 */
-	public function display_pair() {
+	public function handle_pair() {
 		if (Container::is_paired()) {
 			Container_Response::output_forbidden();
 		}
@@ -55,7 +55,7 @@ class Web_Module_Container extends Module {
 	 *
 	 * @access public
 	 */
-	public function display_unpair() {
+	public function handle_unpair() {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
 		}
@@ -79,7 +79,7 @@ class Web_Module_Container extends Module {
 	 *
 	 * @access public
 	 */
-	public function display_provision() {
+	public function handle_provision($name, $content) {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
 		}
@@ -87,11 +87,11 @@ class Web_Module_Container extends Module {
 			Container_Response::output_forbidden();
 		}
 
-		$zipfile = base64_decode($_POST['content']);
-		file_put_contents(Skeleton\Core\Config::$tmp_dir . '/' . $_POST['name'] . '.zip', $zipfile);
+		$zipfile = base64_decode($content);
+		file_put_contents(Skeleton\Core\Config::$tmp_dir . '/' . $name . '.zip', $zipfile);
 		$zip = new ZipArchive();
-		$zip->open(Skeleton\Core\Config::$tmp_dir . '/' . $_POST['name'] . '.zip');
-		$zip->extractTo(Skeleton\Core\Config::$tmp_dir . '/../lib/service/' . $_POST['name']);
+		$zip->open(Skeleton\Core\Config::$tmp_dir . '/' . $name . '.zip');
+		$zip->extractTo(Skeleton\Core\Config::$tmp_dir . '/../lib/service/' . $name);
 		$response = new Container_Response();
 		$response->set_message('Provision successful');
 		$response->output();
@@ -102,15 +102,12 @@ class Web_Module_Container extends Module {
 	 *
 	 * @access public
 	 */
-	public function display_deprovision() {
+	public function handle_deprovision($name) {
 		if (!Container::is_paired()) {
 			Container_Response::output_forbidden();
 		}
-		if (!Container_Permission::is_authenticated()) {
-			Container_Response::output_forbidden();
-		}
 		try {
-			$service = Service::get_by_name($_POST['name']);
+			$service = Service::get_by_name($name);
 		} catch (Exception $e) {
 			$response = new Container_Response();
 			$response->set_status_code(500);
@@ -127,11 +124,7 @@ class Web_Module_Container extends Module {
 	 *
 	 * @access public
 	 */
-	public function display_info() {
-		if (Container::is_paired() and !Container_Permission::is_authenticated()) {
-			Container_Response::output_forbidden();
-		}
-
+	public function handle_info() {
 		$services = Service::get_all();
 		$service_names = [];
 		foreach ($services as $service) {
@@ -148,4 +141,23 @@ class Web_Module_Container extends Module {
 		$response->output();
 	}
 
+	/**
+	 * Secure
+	 *
+	 * @access public
+	 */
+	public function secure() {
+		if (isset($_REQUEST['action']) and $_REQUEST['action'] == 'pair') {
+			if (!Container_Permission::is_paired()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		if (!Container_Permission::is_authenticated()) {
+			return false;
+		}
+		return true;
+	}
 }

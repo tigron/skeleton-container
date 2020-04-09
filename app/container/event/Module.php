@@ -20,10 +20,6 @@ class Module extends \Skeleton\Core\Event {
 	 * @access public
 	 */
 	public function not_found() {
-		if (isset($_SERVER['HTTP_KEY'])) {
-			\Container_Permission::$key = $_SERVER['HTTP_KEY'];
-		}
-
 		/**
 		 * Parse the requested URL
 		 */
@@ -63,8 +59,5 @@ class Module extends \Skeleton\Core\Event {
 		$autoloader->register();
 
 		$module->accept_request();
-		
 	}
-
-
 }

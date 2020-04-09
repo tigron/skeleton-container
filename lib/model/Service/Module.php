@@ -14,14 +14,12 @@ abstract class Service_Module {
 	 * @access public
 	 */
 	public function accept_request() {
-		/**
-		 * Cleanup sticky session
-		 */
-		\Skeleton\Core\Web\Session\Sticky::cleanup();
-		$sticky = \Skeleton\Core\Web\Session\Sticky::Get();
+		if (isset($_SERVER['HTTP_KEY'])) {
+			\Container_Permission::$key = $_SERVER['HTTP_KEY'];
+		}
 
 		// Call our magic secure() method before passing on the request
-		$allowed = true;
+		$allowed = false;
 		if (method_exists($this, 'secure')) {
 			$allowed = $this->secure();
 		}
@@ -54,11 +52,21 @@ abstract class Service_Module {
 	 * @access public
 	 */
 	public function handle_request() {
-		ob_start();
+		$input = file_get_contents('php://input');
+		$post = json_decode($input, true);
+		if ($post === null) {
+			$post = [];
+		}
+
 		// Find out which method to call, fall back to calling displa()
 		if (isset($_REQUEST['action']) AND method_exists($this, 'handle_' . $_REQUEST['action'])) {
 			try {
-				call_user_func_array([$this, 'handle_'.$_REQUEST['action']], $_POST);
+				call_user_func_array([$this, 'handle_'.$_REQUEST['action']], $post);
+			} catch (\ArgumentCountError $e) {
+				$response = new Container_Response();
+				$response->set_status_code(500);
+				$response->set_message($e->getMessage());
+				$response->output();
 			} catch (\Exception $e) {
 				$response = new Container_Response();
 				$response->set_status_code(500);
@@ -71,7 +79,6 @@ abstract class Service_Module {
 			$response->set_message('Action ' . $_REQUEST['action'] . ' not found for service ' . $this->get_name());
 			$response->output();
 		}
-		ob_end_clean();
 	}
 
 	/**
@@ -85,5 +92,17 @@ abstract class Service_Module {
 		}
 
 		return strtolower(get_class($this));
+	}
+
+	/**
+	 * Secure
+	 *
+	 * @access public
+	 */
+	public function secure() {
+		if (!Container_Permission::is_authenticated()) {
+			return false;
+		}
+		return true;
 	}
 }
