@@ -61,7 +61,6 @@ class Service {
 		$application = \Skeleton\Core\Application::get();
 		$relative_uri_parts = array_values(array_filter(explode('/', $request_relative_uri)));
 
-
 		$autoloader = new \Skeleton\Core\Autoloader();
 		$autoloader->add_include_path($this->module_path, 'Web_Module_');
 		$autoloader->register();
@@ -89,8 +88,8 @@ class Service {
 	 * @return array $applications
 	 */
 	public static function get_all() {
-		$service_dir = dirname(__FILE__) . '/../service/';
-		$service_directories = scandir($service_dir);
+		$config = Config::get();
+		$service_directories = scandir($config->service_directory);
 		$services = [];
 		foreach ($service_directories as $service_directory) {
 			if ($service_directory[0] == '.') {

@@ -91,7 +91,9 @@ class Web_Module_Container extends Service_Module {
 		file_put_contents(Skeleton\Core\Config::$tmp_dir . '/' . $name . '.zip', $zipfile);
 		$zip = new ZipArchive();
 		$zip->open(Skeleton\Core\Config::$tmp_dir . '/' . $name . '.zip');
-		$zip->extractTo(Skeleton\Core\Config::$tmp_dir . '/../lib/service/' . $name);
+
+		$config = Config::get();
+		$zip->extractTo($config->service_directory . '/' . $name);
 		$response = new Container_Response();
 		$response->set_message('Provision successful');
 		$response->output();

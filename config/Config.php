@@ -109,6 +109,7 @@ class Config {
 			 * Default module
 			 */
 			'module_default' => 'index',
+			'service_directory' => realpath(dirname(__FILE__) . '/../lib/service/'),
 		];
 	}
 }
