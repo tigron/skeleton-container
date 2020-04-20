@@ -96,7 +96,7 @@ class Service {
 				continue;
 			}
 
-			$service_path = realpath($service_dir . '/' . $service_directory);
+			$service_path = realpath($config->service_directory . '/' . $service_directory);
 			if (!is_dir($service_path)) {
 				continue;
 			}
