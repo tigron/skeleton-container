@@ -66,9 +66,9 @@ class Container_Permission {
 	 * @access public
 	 */
 	public static function unpair() {
-		$path  = dirname(__FILE__) . '/../../../config/pair.key';
-		file_put_contents($path, '');
-		chmod($path, 0600);
+		$config = Config::get();
+		file_put_contents($config->pair_key_path, '');
+		chmod($config->pair_key_path, 0600);
 	}
 
 	/**
@@ -84,12 +84,15 @@ class Container_Permission {
 
 		// Create random pair string
 		$key = implode('', array_map(
-			function () {
-				return chr(rand(0, 1) ? rand(48, 57) : rand(97, 122));
-			}, range(0, 249)));
-		$path  = dirname(__FILE__) . '/../../../config/pair.key';
-		file_put_contents($path, $key);
-		chmod($path, 0600);
+				function () {
+					return chr(rand(0, 1) ? rand(48, 57) : rand(97, 122));
+				}, range(0, 249)
+			)
+		);
+
+		$config = Config::get();
+		file_put_contents($config->pair_key_path, $key);
+		chmod($config->pair_key_path, 0600);
 		return $key;
 	}
 
@@ -100,16 +103,16 @@ class Container_Permission {
 	 * @return string $key
 	 */
 	private static function get_pair_key() {
-		$path  = dirname(__FILE__) . '/../../../config/pair.key';
-		if (!file_exists($path)) {
+		$config = Config::get();
+
+		if (!file_exists($config->pair_key_path)) {
 			throw new Exception('Key file not found');
 		}
-		$pair_key = file_get_contents($path);
+		$pair_key = file_get_contents($config->pair_key_path);
 		if (trim($pair_key) == '') {
 			throw new Exception('No pair key set');
 		}
 
 		return $pair_key;
 	}
-
 }
