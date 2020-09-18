@@ -50,8 +50,8 @@ class Module extends \Skeleton\Core\Event {
 
 		try {
 			$module = $service->get_module(implode('/', $request_uri_parts));
-		} catch (Exception $e) {
-			\Skeleton\Core\Web\HTTP\Status::code_404('Module not found');
+		} catch (\Exception $e) {
+			\Skeleton\Core\Web\HTTP\Status::code_404('Module not found for service ' . $service_name);
 		}
 
 		$autoloader = new \Skeleton\Core\Autoloader();
