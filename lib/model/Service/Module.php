@@ -9,6 +9,16 @@
 abstract class Service_Module {
 
 	/**
+	 * Service
+	 * The service that is handling the request
+	 *
+	 * @access public
+	 * @Service $service
+	 */
+	public $service = null;
+
+
+	/**
 	 * Accept the request
 	 *
 	 * @access public
@@ -76,7 +86,7 @@ abstract class Service_Module {
 		} else {
 			$response = new Container_Response();
 			$response->set_status_code(404);
-			$response->set_message('Action ' . $_REQUEST['action'] . ' not found for service ' . $this->get_name());
+			$response->set_message('Action ' . $_REQUEST['action'] . ' not found for service ' . $this->service->name . ' and environment ' . $this->get_name());
 			$response->output();
 		}
 	}

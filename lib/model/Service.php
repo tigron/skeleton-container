@@ -75,7 +75,9 @@ class Service {
 
 		foreach ($classnames as $classname) {
 			if (class_exists($classname)) {
-				return new $classname;
+				$class = new $classname;
+				$class->service = $this;
+				return $class;
 			}
 		}
 		throw new \Exception('Module not found');
