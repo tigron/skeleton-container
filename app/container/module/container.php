@@ -144,6 +144,57 @@ class Web_Module_Container extends Service_Module {
 	}
 
 	/**
+	 * Get the difference between the local and remote service
+	 *
+	 * @access public
+	 */
+	public function handle_diff($name, $content) {
+		// the code below uses 'remote' and 'local', where 'remote' is the
+		// remote container, and 'local' is the controller
+		$config = Config::get();
+		$service = Service::get_by_name($name);
+
+		$zip_path = Skeleton\Core\Config::$tmp_dir . '/' . $name . '.zip';
+		$extract_path = Skeleton\Core\Config::$tmp_dir . '/' . $name;
+		$service_path = $config->service_directory . '/' . $name;
+
+		$zipfile = base64_decode($content);
+		file_put_contents($zip_path, $zipfile);
+
+		$zip = new ZipArchive();
+		$zip->open($zip_path);
+		$zip->extractTo($extract_path);
+
+		$files = [];
+
+		$iterator = new RecursiveDirectoryIterator($extract_path);
+		foreach(new RecursiveIteratorIterator($iterator) as $file) {
+			if ($file->isFile()) {
+				$file_path = substr($file->getRealPath(), strlen($extract_path));
+
+				$differ = new \SebastianBergmann\Diff\Differ(new \SebastianBergmann\Diff\Output\StrictUnifiedDiffOutputBuilder([
+					'fromFile' => 'local/' . $file_path,
+					'toFile'   => 'remote/' . $file_path,
+				]));
+
+				if (!file_exists($service_path . '/' . $file_path)) {
+					$files[$file_path] = 'local-only';
+				} elseif (hash_file('sha256', $extract_path . '/' . $file_path) !== hash_file('sha256', $service_path . '/' . $file_path)) {
+					$files[$file_path] = $differ->diff(
+						file_get_contents($extract_path . '/' . $file_path),
+						file_get_contents($service_path . '/' . $file_path)
+					);
+				}
+			}
+		}
+
+		$response = new Container_Response();
+		$response->set_message(count($files) . ' differ');
+		$response->set_data($files);
+		$response->output();
+	}
+
+	/**
 	 * Secure
 	 *
 	 * @access public

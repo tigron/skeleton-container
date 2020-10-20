@@ -3,7 +3,8 @@
         "vendor-dir": "lib/external/packages"
     },
     "require" : {
-        "tigron/skeleton-core": "^1.2.1"
+        "tigron/skeleton-core": "^1.2.1",
+        "sebastian/diff": "^4.0"
     },
     "license": "MIT",
     "authors": [
