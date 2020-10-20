@@ -4,21 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00f32bebd0b6f129c0d6e75117395854",
+    "content-hash": "c145a0bd8c41e7bf9a5889ae205f76e9",
     "packages": [
         {
             "name": "tigron/skeleton-core",
-            "version": "v1.0.9",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tigron/skeleton-core.git",
-                "reference": "32236f087366b25c052c42172ce12b34fa42e3ac"
+                "reference": "026b60d3a545da89b9ecaefd86be7572c795d583"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tigron/skeleton-core/zipball/32236f087366b25c052c42172ce12b34fa42e3ac",
-                "reference": "32236f087366b25c052c42172ce12b34fa42e3ac",
+                "url": "https://api.github.com/repos/tigron/skeleton-core/zipball/026b60d3a545da89b9ecaefd86be7572c795d583",
+                "reference": "026b60d3a545da89b9ecaefd86be7572c795d583",
                 "shasum": ""
+            },
+            "suggest": {
+                "tigron/skeleton-template": "*"
             },
             "type": "library",
             "autoload": {
@@ -37,40 +40,7 @@
                 }
             ],
             "description": "Core functionality for Skeleton",
-            "time": "2020-02-05T12:26:40+00:00"
-        },
-        {
-            "name": "tigron/skeleton-template",
-            "version": "v0.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tigron/skeleton-template.git",
-                "reference": "1467522243019f45fbe5b824a63222a677608997"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tigron/skeleton-template/zipball/1467522243019f45fbe5b824a63222a677608997",
-                "reference": "1467522243019f45fbe5b824a63222a677608997",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Skeleton\\Template\\": "lib/Skeleton/Template/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tigron BVBA",
-                    "email": "support@tigron.be"
-                }
-            ],
-            "description": "Template library for skeleton",
-            "time": "2019-08-02T11:53:04+00:00"
+            "time": "2020-10-20T07:07:21+00:00"
         }
     ],
     "packages-dev": [],
